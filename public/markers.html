@@ -33,20 +33,23 @@
 
 				function placeMarker(coords){
           var image = '/images/dot_blue.png';
-					var latlng = new google.maps.LatLng(coords[0],coords[1]);
-					new google.maps.Marker({
-						position: latlng,
+          var myLatlng = new google.maps.LatLng(coords[0],coords[1]);
+
+          var image = '/images/dot_blue.png';
+          var marker = new google.maps.Marker({
+            position: myLatlng,
             // animation: google.maps.Animation.DROP,
-						map: map,
+            map: map,
             icon: image
-				  });
+          });
+
+          // Remove marker after 30 seconds
+
           setTimeout(function(){
-            latlng.setMap(null);
-            delete latlng;
-          }, 3000);
+            marker.setMap(null);
+            delete marker;
+          }, 30000);
         }
-
-
 			}
 		</script>
     </head>
