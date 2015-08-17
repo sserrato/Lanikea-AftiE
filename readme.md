@@ -2,7 +2,9 @@
 ## Project Overview 
 Team CPS will create an app that will monitor and visually geo-locate Twitter mentions of user specified search terms in real time. 
 
-This app will be utlilize Mongo, Express & Node.js on the backend along with JavaScript, JQuery, HTML5 & CSS on the front end. This app will be deployed on Heroku and use Modulus or Mongolab for the database.
+This app will utlilize Mongo, Express & Node.js on the backend along with JavaScript, JQuery, HTML5 & CSS on the front end. This app will be deployed on Heroku and use Modulus or Mongolab for the database.
+
+Further Node packages are to be determined.
 
 ![Alt Text](http://i.imgur.com/PI7eGyX.jpg?1)
 
