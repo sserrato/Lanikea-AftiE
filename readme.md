@@ -1,6 +1,6 @@
 # CPS Maps
 
-![Alt Text](app.png)
+
 ## Project Overview 
 Team CPS will create an app that will monitor and visually geo-locate Twitter mentions of user specified search terms in real time. 
 
