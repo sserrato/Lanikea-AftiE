@@ -14,12 +14,15 @@
 
 			function initialize() {
 
-				var mapOptions = {
-					center: new google.maps.LatLng(54, -4),
-					zoom: 6,
-					mapTypeId: google.maps.MapTypeId.TERRAIN
-				};
-				var map = new google.maps.Map(document.getElementById("map"),mapOptions);
+        //RENDER MAP
+        var latlng = new google.maps.LatLng(0, 0); //this numbers sets the lat and long of the center of the map. UK 54, -4
+        var myOptions = {
+            zoom: 2  // this number changes the zoom that the map starts at UK 6
+          , center: latlng
+          , mapTypeId: google.maps.MapTypeId.ROADMAP //ROADMAP can also be SATELLITE, HYBRID, or TERRAIN
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
 
 				client.subscribe('/tweet', function(message) {
@@ -29,13 +32,20 @@
 				});
 
 				function placeMarker(coords){
+          var image = '/images/dot_blue.png';
 					var latlng = new google.maps.LatLng(coords[0],coords[1]);
 					new google.maps.Marker({
 						position: latlng,
+            // animation: google.maps.Animation.DROP,
 						map: map,
-						title:"Hello World!"
+            icon: image
 				  });
-				}
+          setTimeout(function(){
+            latlng.setMap(null);
+            delete latlng;
+          }, 3000);
+        }
+
 
 			}
 		</script>
