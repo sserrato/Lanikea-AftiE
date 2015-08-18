@@ -1,7 +1,90 @@
-var ntwitter = require('ntwitter'),
-	express = require('express'),
-	faye = require('faye'),
-	http = require('http');
+var ntwitter 	= require('ntwitter');
+var express 	= require('express');
+var	faye	 		= require('faye');
+var	http 			= require('http');
+var logger 		=	require('morgan');
+
+
+
+
+// set up mongoose and db-related
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/cpsdb');
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
+db.once('connected. rejoice.', function(callback){console.log('connected to mongo')});
+// set up bodyparser
+var bodyParser = require('body-parser')
+
+/*
+	Create an express webapp.  This will allow us to serve
+	static files in the ./public directory
+*/
+var app = express();
+app.use(express.static(__dirname + '/public'));
+// use logger to show requests to the console
+app.use(logger('dev'));
+// parse incoming json
+app.use(bodyParser.json());
+
+// create an instance for the API routes
+var apiRouter = express.Router();
+console.log(apiRouter);
+
+apiRouter.use(function(req, res, next){
+	console.log("Someone was here. Slay.");
+	next();
+})
+
+apiRouter.get('/', function(req,res){
+	res.json({ message: 'Welcome to the API for CPS'});
+});
+// REGISTER THE API ROUTE - all routes using the apiRouter will be prefied with /api
+app.use('/api', apiRouter);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // set up nTwitter with the api configuration in ./config.js
@@ -48,17 +131,12 @@ twit.stream('statuses/filter', filterParams, function(_stream) {
 /*
 	Output every tweet to the console
 */
-stream.on('data', function(data){
-	console.log(data.text);
-});
+// stream.on('data', function(data){
+// 	console.log(data.text);
+// });
 
 
-/*
-	Create an express webapp.  This will allow us to serve
-	static files in the ./public directory
-*/
-var app = express();
-app.use(express.static(__dirname + '/public'));
+
 
 /*
 	Add Faye - a publish/subscribe messaging library to allow
