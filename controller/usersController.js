@@ -41,9 +41,21 @@ var User = require('../models/user.js');
   	})
   };
 
+  function deleteUser(req, res){
+    User.findOneAndRemove({_id: req.params.id}, function(err, user){
+      if (err) {
+        res.json({message: "User not deleted"});
+      }else{
+        res.json({message: "User deleted"});
+      }
+    })
+    }
+
+
 module.exports = {
   createUser: createUser,
   showUsers: showUsers,
   findUser: findUser,
-  editUser: editUser
+  editUser: editUser,
+  deleteUser: deleteUser
 };

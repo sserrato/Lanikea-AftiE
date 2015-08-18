@@ -1,3 +1,5 @@
+// not used
+
 var express = require('express');
 var bodyParser = require('body-parser');
 // var methodOverride = require('method-override');
@@ -20,5 +22,6 @@ var usersController = require('../controller/usersController');
   apiRouter.route('/users/:id')
   	.get(usersController.findUser)
   	.patch(usersController.editUser)
+    .delete(usersController.deleteUser)
 
 // module.exports = userRouter;
