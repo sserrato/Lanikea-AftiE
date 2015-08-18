@@ -3,7 +3,7 @@ var express 	= require('express');
 var	faye	 		= require('faye');
 var	http 			= require('http');
 var logger 		=	require('morgan');
-var bcrypt 		= require('bcrypt'); 
+var bcrypt 		= require('bcrypt');
 var User      = require('./models/user');
 
 
@@ -148,9 +148,9 @@ twit.stream('statuses/filter', filterParams, function(_stream) {
 /*
 	Output every tweet to the console
 */
-// stream.on('data', function(data){
-// 	console.log(data.text);
-// });
+stream.on('data', function(data){
+	console.log(data.text);
+});
 
 
 
