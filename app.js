@@ -149,7 +149,7 @@ twit.stream('statuses/filter', filterParams, function(_stream) {
 	Output every tweet to the console
 */
 stream.on('data', function(data){
-	console.log(data.text);
+	console.log(data.text + data.geo);
 });
 
 
@@ -169,13 +169,15 @@ var bayeux = new faye.NodeAdapter({
 	When a tweet comes through with geodata, publish it to the
 	browser over the /tweet channel
 */
+var streamData = []
 stream.on('data', function(data){
 	if(data.geo)
 		bayeux.getClient()
 			.publish('/tweet', {
 				geo: data.geo,
-				text: data.text
-			});
+				text: data.text,
+
+			} );
 });
 
 
