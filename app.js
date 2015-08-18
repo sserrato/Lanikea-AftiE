@@ -3,7 +3,8 @@ var express 	= require('express');
 var	faye	 		= require('faye');
 var	http 			= require('http');
 var logger 		=	require('morgan');
-
+var bcrypt 		= require('bcrypt');
+var User      = require('./models/user');
 
 
 
@@ -38,7 +39,23 @@ apiRouter.use(function(req, res, next){
 
 apiRouter.get('/', function(req,res){
 	res.json({ message: 'Welcome to the API for CPS'});
-});
+})
+
+apiRouter.route('/users')
+.post(function(req, res){
+	var user = new User(req.body.user);
+	// save the user and check for errors
+	user.save(function(err){
+		if(err){
+			return res.status(401).send({message: err.errmsg});
+		}
+		else{
+			return res.status(200).send({message: 'user has been created. rejoice!'});
+		}
+	})
+})
+
+
 // REGISTER THE API ROUTE - all routes using the apiRouter will be prefied with /api
 app.use('/api', apiRouter);
 

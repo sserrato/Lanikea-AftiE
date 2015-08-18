@@ -16,7 +16,6 @@ userSchema.pre('save', function(next){
   if(!user.isModified('password')) return next();
   // generate salt - bcrypt method
     bcrypt.genSalt(5, function(err, salt){
-      if(err) return next(err);
       bcrypt.hash(user.password, salt, function(err, hash){
         if(err) return next(err);
 
@@ -35,3 +34,5 @@ userSchema.pre('save', function(next){
       callback(null, isMatch);
     })
   };
+
+module.exports = mongoose.model('User', userSchema)
