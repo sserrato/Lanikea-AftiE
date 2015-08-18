@@ -5,8 +5,8 @@ var	http 			= require('http');
 var logger 		=	require('morgan');
 var bcrypt 		= require('bcrypt');
 var User      = require('./models/user');
-var usersController = require('./controller/usersController')
-
+var usersController = require('./controller/usersController');
+var methodOverride = require('method-override');
 
 // set up mongoose and db-related
 var mongoose = require('mongoose');
@@ -49,6 +49,7 @@ apiRouter.route('/users')
 apiRouter.route('/users/:id')
 	.get(usersController.findUser)
 	.patch(usersController.editUser)
+	.delete(usersController.deleteUser)
 
 // REGISTER THE API ROUTE - all routes using the apiRouter will be prefied with /api
 	app.use('/api', apiRouter);
