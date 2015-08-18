@@ -3,7 +3,7 @@ var express 	= require('express');
 var	faye	 		= require('faye');
 var	http 			= require('http');
 var logger 		=	require('morgan');
-
+var User      = require('./models/user');
 
 
 
