@@ -131,9 +131,9 @@ twit.stream('statuses/filter', filterParams, function(_stream) {
 /*
 	Output every tweet to the console
 */
-// stream.on('data', function(data){
-// 	console.log(data.text);
-// });
+stream.on('data', function(data){
+	console.log(data.text);
+});
 
 
 
