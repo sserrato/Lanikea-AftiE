@@ -46,7 +46,7 @@ var User = require('../models/user.js');
       if (err) {
         res.json({message: "User not deleted"});
       }else{
-        res.json({message: "user deleted"});
+        res.json({message: "User deleted"});
       }
     })
     }
