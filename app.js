@@ -54,6 +54,35 @@ apiRouter.route('/users')
 		}
 	})
 })
+.get(function(req, res){
+	User.find({}, function(err, users){
+		if(err) return res.status(401).send({message: err.errmsg});
+			res.json(users);
+	});
+});
+
+apiRouter.route('/users/:id')
+	.get(function(req, res){
+		User.findOne({_id: req.params.id}, function(err,user){
+			if(err) res.json({message: "Error w ID"});
+				res.json(user)
+		})
+	})
+
+.patch(function(req,res){
+	console.log(req);
+	User.findOneAndUpdate({_id: req.params.id}, req.body.user, function(err, users){
+		if (err){
+			console.log(err);
+			res.json({message: "Update error. Try again. Logging reqbodyuser " + req.body.user})
+			return
+		} else {
+			res.json({message: "User has been updated"});
+			console.log("User updated");
+			console.log(req.body.params + "this is what is supposed to be updated");
+		}
+	})
+})
 
 
 // REGISTER THE API ROUTE - all routes using the apiRouter will be prefied with /api
