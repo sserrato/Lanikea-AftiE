@@ -28,12 +28,13 @@ app.use(logger('dev'));
 // parse incoming json
 app.use(bodyParser.json());
 
+//// ROUTES
 // create an instance for the API routes
 var apiRouter = express.Router();
-console.log(apiRouter);
+	console.log(apiRouter);
 
 apiRouter.use(function(req, res, next){
-	console.log("Someone was here. Slay.");
+	console.log(req);
 	next();
 })
 
@@ -42,61 +43,15 @@ apiRouter.get('/', function(req,res){
 })
 
 apiRouter.route('/users')
-.post(usersController.createUser)//{
-.get(usersController.showUsers)
+	.post(usersController.createUser)
+	.get(usersController.showUsers)
 
 apiRouter.route('/users/:id')
 	.get(usersController.findUser)
 	.patch(usersController.editUser)
 
-
 // REGISTER THE API ROUTE - all routes using the apiRouter will be prefied with /api
-app.use('/api', apiRouter);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	app.use('/api', apiRouter);
 
 // set up nTwitter with the api configuration in ./config.js
 var config = require('./config.js'),
@@ -143,7 +98,7 @@ twit.stream('statuses/filter', filterParams, function(_stream) {
 	Output every tweet to the console
 */
 // stream.on('data', function(data){
-// 	console.log(data.text + data.geo);
+// 	console.log(data.geo);
 // });
 
 
