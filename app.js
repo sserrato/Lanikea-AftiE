@@ -75,12 +75,24 @@ var bayeux = new faye.NodeAdapter({
 	browser over the /tweet channel
 */
 stream.on('data', function(data){
-	if(data.geo)
+	if(data.coordinates && data.coordinates.coordinates){
 		bayeux.getClient()
 			.publish('/tweet', {
-				geo: data.geo,
-				text: data.text
+				coordinates: data.coordinates.coordinates,
+				screen_name: data.user.screen_name,
+				text: data.text,
+				pic: data.user.profile_image_url
 			});
+	} else if(data.place){
+	  var place = data.place.bounding_box.coordinates[0][0];
+	   bayeux.getClient()
+			 .publish('/tweet', {
+	        coordinates: place,
+	      	screen_name: data.user.screen_name,
+	      	text: data.text,
+	      	pic: data.user.profile_image_url
+	    });
+	}
 });
 
 
