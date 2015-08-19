@@ -1,4 +1,4 @@
-
+require('dotenv').load()
 var ntwitter 	= require('ntwitter');
 var express 	= require('express');
 var	faye	 		= require('faye');
@@ -58,6 +58,7 @@ apiRouter.route('/users/:id')
 	app.use('/api', apiRouter);
 
 // set up nTwitter with the api configuration in ./config.js
+
 var config = require('./config.js'),
 	twit = new ntwitter(config);
 
@@ -124,13 +125,24 @@ var bayeux = new faye.NodeAdapter({
 */
 var streamData = []
 stream.on('data', function(data){
-	if(data.geo)
+	if(data.coordinates && data.coordinates.coordinates){
 		bayeux.getClient()
 			.publish('/tweet', {
-				geo: data.geo,
+				coordinates: data.coordinates.coordinates,
+				screen_name: data.user.screen_name,
 				text: data.text,
-
-			} );
+				pic: data.user.profile_image_url
+			});
+	} else if(data.place){
+	  var place = data.place.bounding_box.coordinates[0][0];
+	   bayeux.getClient()
+			 .publish('/tweet', {
+	        coordinates: place,
+	      	screen_name: data.user.screen_name,
+	      	text: data.text,
+	      	pic: data.user.profile_image_url
+	    });
+	}
 });
 
 

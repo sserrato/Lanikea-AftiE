@@ -1,107 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>maptime</title>
+        <title>GtagTweets</title>
         <style type="text/css">
-
-    html, body, #map {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .stations, .stations svg {
-      position: absolute;
-    }
-
-    .stations svg {
-      width: 60px;
-      height: 20px;
-      padding-right: 100px;
-      font: 10px sans-serif;
-    }
-
-    .stations circle {
-      fill: blue;
-      /*stroke: blue;
-      stroke-width: 1.5px;*/
-    }
-
+        	html, body, #map{
+        		width:100%;height:100%;margin:0;
+        	}
         </style>
 		<script type="text/javascript" src="/faye.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-
+		<script src="/js/markers.js"></script>
     </head>
-    <body >
-        <div id="map" ></div>
-    <script type="text/javascript">
-			var client = new Faye.Client('/faye');
 
-
-
-        // Create the Google Map…
-        var map = new google.maps.Map(d3.select("#map").node(), {
-          zoom: 2,
-          center: new google.maps.LatLng(0, 0),
-          mapTypeId: google.maps.MapTypeId.TERRAIN
-        });
-
-        // Load the station data. When the data comes back, create an overlay.
-        client.subscribe('/tweet', function(message) {
-          var overlay = new google.maps.OverlayView();
-
-          // Add the container when the overlay is added to the map.
-          overlay.onAdd = function() {
-            var layer = d3.select(this.getPanes().overlayLayer).append("div")
-                .attr("class", "stations");
-
-            // Draw each marker as a separate SVG element.
-            // We could use a single SVG, but what size would it have?
-            overlay.draw = function() {
-              var projection = this.getProjection(),
-                  padding = 10;
-              var coord1 = message.geo.coordinates[0];
-              message.geo.coordinates[0] = message.geo.coordinates[1];
-              message.geo.coordinates[1] = coord1;
-              // console.log(message.geo.coordinates);
-              var marker = layer.selectAll("svg")
-                  .data(d3.entries(message.geo))
-                  .each(transform) // update existing markers
-                  .enter().append("svg:svg")
-                  .each(transform)
-                  .attr("class", "marker");
-
-              // Add a circle.
-              marker.append("svg:circle")
-                  .attr("r", 1)
-                  .attr("cx", padding)
-                  .attr("cy", padding)
-                  .transition().remove().attr("r", 12).duration(3000)
-                  .style("opacity", 0).duration(3000);
-
-              // Add a label.
-              // marker.append("svg:text")
-              //     .attr("x", padding + 7)
-              //     .attr("y", padding)
-              //     .attr("dy", ".31em")
-              //     .text(function(d) { return d.key; });
-
-              function transform(d) {
-                d = new google.maps.LatLng(d.value[1], d.value[0]);
-                d = projection.fromLatLngToDivPixel(d);
-                return d3.select(this)
-                    .style("left", (d.x - padding) + "px")
-                    .style("top", (d.y - padding) + "px");
-              }
-            };
-          };
-
-          // Bind our overlay to the map…
-          overlay.setMap(map);
-        });
-
-		</script>
+    <body onload="initialize()">
+        <div id="map" style="height:100%;width:100%"></div>
     </body>
 </html>
