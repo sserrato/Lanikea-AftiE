@@ -6,7 +6,6 @@ var bcrypt 		= require('bcrypt');
 var User      = require('./models/user');
 var usersController = require('./controller/usersController');
 var methodOverride = require('method-override');
-var io = require('socket.io')(server); //invokes socket.io which will handle all connections and responses using server.
 var Twit = require('twit');
 
 var twitter = new Twit({
@@ -39,6 +38,8 @@ app.use(logger('dev'));
 // parse incoming json
 app.use(bodyParser.json());
 var server = require('http').createServer(app); //setup for websocket application
+
+var io = require('socket.io')(server); //invokes socket.io which will handle all connections and responses using server.
 
 //// ROUTES
 // create an instance for the API routes

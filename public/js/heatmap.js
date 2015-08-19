@@ -1,4 +1,9 @@
-var client = new Faye.Client('/faye');
+var socket = io();
+socket.on('connect', function() {
+  console.log('Connected!');
+});
+
+ var map, heatmap;
 var map, heatmap;
 
 function initialize() {
@@ -19,7 +24,7 @@ function initialize() {
     map:map
   });
 
-  client.subscribe('/tweet', function(data) {
+  socket.on('tweets', function(data) {
     // console.log(data.user);
     // console.log(data.text);
     // console.log(data);
