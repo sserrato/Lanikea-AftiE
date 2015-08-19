@@ -37,7 +37,7 @@ function initialize() {
         .attr("r", 2)
         .attr("cx", padding)
         .attr("cy", padding)
-        .transition().remove().attr("r", 10).duration(3000)
+        .transition().remove().attr("r", 10).attr("fill", "red").duration(3000)
         // .style("opacity", 0).duration(3000);
         // Add a label.
         // marker.append("svg:text")
