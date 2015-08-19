@@ -6,6 +6,8 @@ var userSchema = new mongoose.Schema({
   ,email: {type: String, required: true, unique: true}
   ,password: {type: String, required: true, select: false}
   ,admin: {type: Boolean, default: false}
+  // ,dataStream:[{storingData: Boolean, default: false, followers_count: number}]
+
 })
 
 // hash the password before the user is saved
