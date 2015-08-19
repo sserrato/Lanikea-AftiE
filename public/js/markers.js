@@ -9,10 +9,11 @@ function initialize() {
   };
   var map = new google.maps.Map(document.getElementById("map"), myOptions);
   client.subscribe('/tweet', function(data) {
-    console.log(data.user);
-    console.log(data.text);
-    console.log(data);
+    // console.log(data.user);
+    // console.log(data.text);
+    // console.log(data);
     var myLatlng = new google.maps.LatLng(data.coordinates[1],data.coordinates[0]);
+    // console.log(myLatlng);
     var image = '/images/dot_blue.png';
     var marker = new google.maps.Marker({
       position: myLatlng,
