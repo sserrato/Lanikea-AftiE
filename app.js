@@ -58,6 +58,7 @@ apiRouter.route('/users/:id')
 	app.use('/api', apiRouter);
 
 // set up nTwitter with the api configuration in ./config.js
+// this code needs to be setup in heroku config set up in order to run properly. Twitter keys have been compromised.
 var config = require('./config.js'),
 	twit = new ntwitter(config);
 
