@@ -1,3 +1,4 @@
+
 var ntwitter 	= require('ntwitter');
 var express 	= require('express');
 var	faye	 		= require('faye');
@@ -10,7 +11,9 @@ var methodOverride = require('method-override');
 
 // set up mongoose and db-related
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/cpsdb');
+// mongoose.connect('mongodb://localhost/cpsdb');
+// mongoose.connect('mongodb://'<dbuser>':<dbpassword>@ds033113.mongolab.com:33113/heroku_c39vv1nx')
+mongoose.connect('mongodb://'+process.env.MONGODBUSER+':'+process.env.MONGODBPASS+'@ds033113.mongolab.com:33113/heroku_c39vv1nx')
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once('connected. rejoice.', function(callback){console.log('connected to mongo')});
@@ -132,6 +135,8 @@ stream.on('data', function(data){
 
 
 // start the app listening on port 3000 with faye attached
+
+
 var server = http.createServer(app);
 bayeux.attach(server);
 server.listen(3000);
