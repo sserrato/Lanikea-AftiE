@@ -13,10 +13,11 @@ var methodOverride = require('method-override');
 var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/cpsdb');
 // mongoose.connect('mongodb://'<dbuser>':<dbpassword>@ds033113.mongolab.com:33113/heroku_c39vv1nx')
-mongoose.connect('mongodb://'+process.env.MONGODBUSER+':'+process.env.MONGODBPASS+'@ds033113.mongolab.com:33113/heroku_c39vv1nx')
+var mongodbUri = 'mongodb://cpsappuser2:cpsappuser2password@ds033113.mongolab.com:33113/cpsapp'
+mongoose.connect(mongodbUri)
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
-db.once('connected. rejoice.', function(callback){console.log('connected to mongo')});
+db.once('connected. rejoice for we are connected at:' +mongodbUri, function(callback){console.log('connected to mongo')});
 // set up bodyparser
 var bodyParser = require('body-parser')
 
@@ -25,6 +26,7 @@ var bodyParser = require('body-parser')
 	static files in the ./public directory
 */
 var app = express();
+app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public'));
 // use logger to show requests to the console
 app.use(logger('dev'));
@@ -103,7 +105,7 @@ twit.stream('statuses/filter', filterParams, function(_stream) {
 	Output every tweet to the console
 */
 stream.on('data', function(data){
-	console.log(data);
+//	console.log(data);
 });
 
 
@@ -151,4 +153,6 @@ stream.on('data', function(data){
 
 var server = http.createServer(app);
 bayeux.attach(server);
-server.listen(3000);
+server.listen(app.get('port'), function(){
+	console.log("Server started, port server is", app.get('port'));
+});
