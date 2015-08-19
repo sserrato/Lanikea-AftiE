@@ -6,9 +6,9 @@ var bcrypt 		= require('bcrypt');
 var User      = require('./models/user');
 var usersController = require('./controller/usersController');
 var methodOverride = require('method-override');
-
 var io = require('socket.io')(server); //invokes socket.io which will handle all connections and responses using server.
 var Twit = require('twit');
+
 var twitter = new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -19,8 +19,6 @@ var twitter = new Twit({
 
 // set up mongoose and db-related
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/cpsdb');
-// mongoose.connect('mongodb://'<dbuser>':<dbpassword>@ds033113.mongolab.com:33113/heroku_c39vv1nx')
 var mongodbUri = process.env.MONGODBURI
 mongoose.connect(mongodbUri)
 var db = mongoose.connection;
