@@ -1,4 +1,9 @@
-var client = new Faye.Client('/faye');
+var socket = io();
+
+socket.on('connect', function() {
+  console.log('Connected!');
+});
+
 function initialize() {
   //RENDER THE MAP
   var latlng = new google.maps.LatLng(0, 0); //this numbers sets the lat and long of the center of the map. UK 54, -4
@@ -8,7 +13,7 @@ function initialize() {
     , mapTypeId: google.maps.MapTypeId.ROADMAP //ROADMAP can also be SATELLITE, HYBRID, or TERRAIN
   };
   var map = new google.maps.Map(document.getElementById("map"), myOptions);
-  client.subscribe('/tweet', function(data) {
+  socket.on('tweets', function(data) {
     // console.log(data.user);
     // console.log(data.text);
     // console.log(data);
