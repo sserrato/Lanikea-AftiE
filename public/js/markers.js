@@ -1,4 +1,9 @@
-var client = new Faye.Client('/faye');
+var socket = io();
+
+socket.on('connect', function() {
+  console.log('Connected!');
+});
+
 
 function initialize() {
 
@@ -13,10 +18,10 @@ function initialize() {
   var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
 
-  client.subscribe('/tweet', function(data) {
+  socket.on('tweets', function(data) {
     // console.log(data.user);
     // console.log(data.text);
-    // console.log(data);
+    console.log(data);
     var myLatlng = new google.maps.LatLng(data.coordinates[1],data.coordinates[0]);
     // console.log(myLatlng);
     var image = '/images/dot_blue.png';
