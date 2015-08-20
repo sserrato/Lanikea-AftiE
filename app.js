@@ -1,12 +1,33 @@
-var ntwitter = require('ntwitter'),
-	express = require('express'),
-	faye = require('faye'),
-	http = require('http');
-
+var morgan = require('morgan');
+var express = require('express');
+var	http = require('http');
+var app = express();
+app.set('port', process.env.PORT || 3000);
+var server = require('http').createServer(app); //setup for websocket application
 
 // set up nTwitter with the api configuration in ./config.js
-var config = require('./config.js'),
-	twit = new ntwitter(config);
+var io = require('socket.io')(server); //invokes socket.io which will handle all connections and responses using server.
+var Twit = require('twit');
+var twitter = new Twit({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+});
+
+//----------------------------------------
+/*
+	Create an express webapp.  This will allow us to serve
+	static files in the ./public directory
+*/
+app.use(express.static(__dirname + '/public'));
+//========================================
+
+// console.log(twitter);
+
+server.listen(app.get('port'), function(){ //instead of app.listen because we are using websocket
+console.log('Server started on: ', app.get('port'));
+});
 
 
 /*
@@ -28,75 +49,55 @@ var config = require('./config.js'),
 		{track:'pizza,burger'}
 
 */
-var filterParams = {locations:'-180,-90,180,90'}; // -10.371,48.812,2.192,60.892 UK
+// var stream = twitter.stream('statuses/filter', {locations:'-180,-90,180,90'}); //twitter is the variable declared above
 
 
 
 /*
 	Start the stream
 */
-var stream;
-twit.stream('statuses/filter', filterParams, function(_stream) {
-	// usually, you'd access `stream` within the callback context, but
-	// for the sake of readability later on - we're relying on the callback
-	// being called syncronously (which nTwitter does) and will add
-	// the callbacks further down
-	stream = _stream;
-});
-
 
 /*
 	Output every tweet to the console
 */
-stream.on('data', function(data){
-	console.log(data.text);
-});
+// stream.on('data', function(data){
+	// console.log(data.text);
+// });
 
-
-/*
-	Create an express webapp.  This will allow us to serve
-	static files in the ./public directory
-*/
-var app = express();
-app.use(express.static(__dirname + '/public'));
-
-/*
-	Add Faye - a publish/subscribe messaging library to allow
-	communication with the browser
-*/
-var bayeux = new faye.NodeAdapter({
-	mount: '/faye',
-	timeout: 45
-});
 
 
 /*
 	When a tweet comes through with geodata, publish it to the
 	browser over the /tweet channel
 */
-stream.on('data', function(data){
-	if(data.coordinates && data.coordinates.coordinates){
-		bayeux.getClient()
-			.publish('/tweet', {
-				coordinates: data.coordinates.coordinates,
-				screen_name: data.user.screen_name,
-				text: data.text,
-				pic: data.user.profile_image_url
-			});
-	} else if(data.place){
-	  var place = data.place.bounding_box.coordinates[0][0];
-	   bayeux.getClient()
-			 .publish('/tweet', {
-	        coordinates: place,
-	      	screen_name: data.user.screen_name,
-	      	text: data.text,
-	      	pic: data.user.profile_image_url
-	    });
-	}
+var stream;
+var searchTerm;
+io.on('connect', function(socket){   //io.on is checking for someone to connect. socket is the person connected
+	socket.on('updateTerm', function(searchTerm){
+    socket.emit('updatedTerm', searchTerm);
+    if(stream){
+      console.log('stopped stream');
+      stream.stop();
+    }
+  stream = twitter.stream('statuses/filter', {track: searchTerm});
+
+	stream.on('tweet', function(tweet){ //this line and above are server side
+	  if(tweet.coordinates && tweet.coordinates.coordinates){
+			var data = {};
+			data.coordinates = tweet.coordinates.coordinates;
+			data.screen_name = tweet.user.screen_name;
+			data.text = tweet.text;
+			data.pic = tweet.user.profile_image_url;
+			socket.emit('tweets', data);  //sending info back to the client
+		} else if(tweet.place) {
+	  	var place = tweet.place.bounding_box.coordinates[0][0];
+			var data = {};
+      data.coordinates = place;
+    	data.screen_name = tweet.user.screen_name;
+    	data.text = tweet.text;
+    	data.pic = tweet.user.profile_image_url;
+			socket.emit('tweets', data);  //sending info back to the client
+	  }
+	});
 });
-
-
-// start the app listening on port 3000 with faye attached
-var server = http.createServer(app);
-bayeux.attach(server);
-server.listen(3000);
+});
