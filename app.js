@@ -3,8 +3,11 @@ var express 	= require('express');
 var	http 			= require('http');
 var logger 		=	require('morgan');
 var bcrypt 		= require('bcrypt');
+//sergio adding the tweet model
+var TweetStream = require('./models/tweet');
 var User      = require('./models/user');
 var usersController = require('./controller/usersController');
+var tweetsController = require('./controller/tweetsController');
 var methodOverride = require('method-override');
 var Twit = require('twit');
 
@@ -54,6 +57,12 @@ apiRouter.use(function(req, res, next){
 apiRouter.get('/', function(req,res){
 	res.json({ message: 'Welcome to the API for CPS'});
 })
+
+//Sergio adding this / Creating routes for the tweet data API THURSDAY
+apiRouter.route('/tweets')
+  .get(tweetsController.showTweets)
+
+//END ADDING
 
 apiRouter.route('/users')
 	.post(usersController.createUser)
@@ -128,7 +137,8 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
   stream = twitter.stream('statuses/filter', {track: searchTerm});
 
 	stream.on('tweet', function(tweet){ //this line and above are server side
-	  if(tweet.coordinates && tweet.coordinates.coordinates){
+
+    if(tweet.coordinates && tweet.coordinates.coordinates){
 			var data = {};
 			data.coordinates = tweet.coordinates.coordinates;
 			data.screen_name = tweet.user.screen_name;
@@ -138,12 +148,24 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 		} else if(tweet.place) {
 	  	var place = tweet.place.bounding_box.coordinates[0][0];
 			var data = {};
+      data.searchTerm =
       data.coordinates = place;
     	data.screen_name = tweet.user.screen_name;
     	data.text = tweet.text;
     	data.pic = tweet.user.profile_image_url;
-			socket.emit('tweets', data);  //sending info back to the client
+      // Sergio adding for model THURSDAY
+      data.queryTerm = searchTerm
+      data.followersCount = tweet.user.followers_count;
+      data.friendsCount = tweet.user.friends_count;
+      var newTweet = new TweetStream(data)
+      newTweet.save(function(err){
+        if(!err){
+          socket.emit('tweets', data);  //sending info back to the client
+        }
+      });
+    console.log(searchTerm +'booooooom');
 	  }
+
 	});
 });
 });
