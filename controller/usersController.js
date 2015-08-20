@@ -1,7 +1,10 @@
 var User = require('../models/user.js');
 
   function createUser(req, res){
-    var user = new User(req.body.user);
+    var user = new User();
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
   	// save the user and check for errors
   	user.save(function(err){
   		if(err){
