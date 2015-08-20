@@ -13,9 +13,13 @@ $(function (){
 
   $('form').submit(function(e){
     e.preventDefault();
-    $('#tweet-container').empty();  //EDIT THIS
+    $('#tweet-container').empty();
     var search_term = $('input').val();
-    socket.emit('updateTerm', search_term);
+    if(search_term !== ""){
+      socket.emit('updateTerm', search_term);
+    } else {
+      $('h1').text("Type a new keyword in the input field.");
+    }
   });
 
   socket.on('updatedTerm', function(searchTerm) {
@@ -23,15 +27,26 @@ $(function (){
     console.log(searchTerm);
   });
 
-  //example
+  //setting up the all tweets button
   $('#allTweets').on('click', function(){
-    $('#tweet-container').empty();  //EDIT THIS
+    $('#tweet-container').empty();
+
     socket.emit('showAll');
   });
 
   socket.on('showAll', function() {
     $('h1').text("Twitter Search for all tweets");
     console.log("searching everything...");
+  });
+
+  //Setting up the remove tweets button
+  $('#removeTweets').on('click', function(){
+    $('#tweet-container').empty();
+  });
+
+  //Setting up the stop tweets button
+  $('#stopTweets').on('click', function(){
+    socket.emit('stopAll');
   });
 
 
