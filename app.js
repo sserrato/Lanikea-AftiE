@@ -61,7 +61,7 @@ console.log('Server started on: ', app.get('port'));
 	Output every tweet to the console
 */
 // stream.on('data', function(data){
-	// console.log(data.text);
+// 	console.log(data.text);
 // });
 
 
@@ -73,35 +73,66 @@ console.log('Server started on: ', app.get('port'));
 var stream;
 var searchTerm;
 io.on('connect', function(socket){   //io.on is checking for someone to connect. socket is the person connected
+  //UPDATE TERM EVENT
 	socket.on('updateTerm', function(searchTerm){
     socket.emit('updatedTerm', searchTerm);
+    //STOP STREAM AND START ANOTHER AFTER
     if(stream){
       console.log('stopped stream');
       stream.stop();
     }
-  if(searchTerm === ""){
+    //CHECK THE INPUT BOX FOR VALUE
+      stream = twitter.stream('statuses/filter', {track: searchTerm});
+    //SEND THE DATA TO FRONT END
+  	stream.on('tweet', function(tweet){ //this line and above are server side
+  	  if(tweet.coordinates && tweet.coordinates.coordinates){
+  			var data = {};
+  			data.coordinates = tweet.coordinates.coordinates;
+  			data.screen_name = tweet.user.screen_name;
+  			data.text = tweet.text;
+  			data.pic = tweet.user.profile_image_url;
+  			socket.emit('tweets', data);  //sending info back to the client
+  		}
+      else if(tweet.place) {
+  	  	var place = tweet.place.bounding_box.coordinates[0][0];
+  			var data = {};
+        data.coordinates = place;
+      	data.screen_name = tweet.user.screen_name;
+      	data.text = tweet.text;
+      	data.pic = tweet.user.profile_image_url;
+  			socket.emit('tweets', data);  //sending info back to the client
+  	  }
+  	});
+  });
+  //SETS UP TO SHOW ALL TWEETS
+  socket.on('showAll', function(){
+    socket.emit('showAll');
+    //STOP STREAM AND START ANOTHER AFTER WITH ALL TWEETS
+    if(stream){
+      console.log('stopped stream');
+      stream.stop();
+    }
+    //SETS IT SO MAP SHOWS ALL TWEETS AROUND THE WORLD
     stream = twitter.stream('statuses/filter', {locations:'-180,-90,180,90'});
-  } else {
-    stream = twitter.stream('statuses/filter', {track: searchTerm});
-  }
-
-	stream.on('tweet', function(tweet){ //this line and above are server side
-	  if(tweet.coordinates && tweet.coordinates.coordinates){
-			var data = {};
-			data.coordinates = tweet.coordinates.coordinates;
-			data.screen_name = tweet.user.screen_name;
-			data.text = tweet.text;
-			data.pic = tweet.user.profile_image_url;
-			socket.emit('tweets', data);  //sending info back to the client
-		} else if(tweet.place) {
-	  	var place = tweet.place.bounding_box.coordinates[0][0];
-			var data = {};
-      data.coordinates = place;
-    	data.screen_name = tweet.user.screen_name;
-    	data.text = tweet.text;
-    	data.pic = tweet.user.profile_image_url;
-			socket.emit('tweets', data);  //sending info back to the client
-	  }
-	});
-});
+    //SEND THE DATA TO FRONT END
+    stream.on('tweet', function(tweet){ //this line and above are server side
+      if(tweet.coordinates && tweet.coordinates.coordinates){
+        var data = {};
+        data.coordinates = tweet.coordinates.coordinates;
+        data.screen_name = tweet.user.screen_name;
+        data.text = tweet.text;
+        data.pic = tweet.user.profile_image_url;
+        socket.emit('tweets', data);  //sending info back to the client
+      }
+      else if(tweet.place) {
+        var place = tweet.place.bounding_box.coordinates[0][0];
+        var data = {};
+        data.coordinates = place;
+        data.screen_name = tweet.user.screen_name;
+        data.text = tweet.text;
+        data.pic = tweet.user.profile_image_url;
+        socket.emit('tweets', data);  //sending info back to the client
+      }
+    });
+  });
 });

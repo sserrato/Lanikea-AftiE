@@ -13,6 +13,7 @@ $(function (){
 
   $('form').submit(function(e){
     e.preventDefault();
+    $('#tweet-container').empty();  //EDIT THIS
     var search_term = $('input').val();
     socket.emit('updateTerm', search_term);
   });
@@ -21,5 +22,17 @@ $(function (){
     $('h1').text("Twitter Search for "+ searchTerm);
     console.log(searchTerm);
   });
+
+  //example
+  $('#allTweets').on('click', function(){
+    $('#tweet-container').empty();  //EDIT THIS
+    socket.emit('showAll');
+  });
+
+  socket.on('showAll', function() {
+    $('h1').text("Twitter Search for all tweets");
+    console.log("searching everything...");
+  });
+
 
 });
