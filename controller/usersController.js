@@ -11,6 +11,9 @@ var User = require('../models/user.js');
   			return res.status(401).send({message: err.errmsg});
   		}
   		else{
+        res.redirect('/api')
+        console.log(res.redirect + 'this is res redir');
+        console.log(user.email + 'what we are sending');
   			return res.status(200).send({message: 'user has been created. rejoice!'});
   		}
   	})

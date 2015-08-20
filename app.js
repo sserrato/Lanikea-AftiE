@@ -89,9 +89,8 @@ apiRouter.route('/users/:id')
 
 */
 // var filterParams = {locations:'-180,-90,180,90'}; // -10.371,48.812,2.192,60.892 UK
-var stream = twitter.stream('statuses/filter', {locations:'-180,-90,180,90'}); //twitter is the variable declared above
+// var stream = twitter.stream('statuses/filter', {locations:'-180,-90,180,90'}); //twitter is the variable declared above
 
-console.log(stream);
 
 /*
 	Start the stream
@@ -102,10 +101,10 @@ console.log(stream);
 /*
 	Output every tweet to the console
 */
-stream.on('data', function(data){
-console.log(data);
+// stream.on('data', function(data){
+// console.log(data);
 
-});
+// });
 
 /*
 	Create an express webapp.  This will allow us to serve
@@ -116,7 +115,18 @@ app.use(express.static(__dirname + '/public'));
 	When a tweet comes through with geodata, publish it to the
 	browser over the /tweet channel
 */
+var stream;
+var searchTerm;
+
 io.on('connect', function(socket){   //io.on is checking for someone to connect. socket is the person connected
+  socket.on('updateTerm', function(searchTerm){
+      socket.emit('updatedTerm', searchTerm);
+      if(stream){
+        console.log('stopped stream');
+        stream.stop();
+      }
+  stream = twitter.stream('statuses/filter', {track: searchTerm});
+
 	stream.on('tweet', function(tweet){ //this line and above are server side
 	  if(tweet.coordinates && tweet.coordinates.coordinates){
 			var data = {};
@@ -135,6 +145,7 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 			socket.emit('tweets', data);  //sending info back to the client
 	  }
 	});
+});
 });
 
 
