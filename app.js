@@ -145,14 +145,14 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
     	data.screen_name = tweet.user.screen_name;
     	data.text = tweet.text;
     	data.pic = tweet.user.profile_image_url;
-      // Sergio adding for model
+      // Sergio adding for model and showing the query terms
       data.queryTerm = searchTerm
       data.followersCount = tweet.user.followers_count;
       data.friendsCount = tweet.user.friends_count;
       var newTweet = new TweetStream(data)
       newTweet.save(function(err){
         if(!err){
-          socket.emit('tweets', data);  //sending info back to the client
+          socket.emit('tweets', data);  //sending info back to the client this is peri code
         }
       });
     console.log(searchTerm +'booooooom');
