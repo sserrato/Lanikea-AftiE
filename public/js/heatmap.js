@@ -1,9 +1,9 @@
 var socket = io();
+
 socket.on('connect', function() {
   console.log('Connected!');
 });
 
- var map, heatmap;
 var map, heatmap;
 
 function initialize() {
