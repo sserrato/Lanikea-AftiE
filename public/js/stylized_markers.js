@@ -1,9 +1,7 @@
 var socket = io();
-
 socket.on('connect', function() {
   console.log('Connected!');
 });
-
 function initialize() {
   var styles = [
     {
@@ -76,13 +74,9 @@ function initialize() {
         .attr("r", 2)
         .attr("cx", padding)
         .attr("cy", padding)
-<<<<<<< HEAD
-        .transition().remove().attr("r", 10).attr("fill", "red").duration(3000)
-=======
         .style("fill", "rgb(0, 255, 128)")
         .style("fill-opacity", 0.4)
         .transition().remove().attr("r", 10).style("fill", "rgb(100, 255, 255)").style("fill-opacity", 0.4).duration(3000)
->>>>>>> upstream/master
         // .style("opacity", 0).duration(3000);
         // Add a label.
         // marker.append("svg:text")
