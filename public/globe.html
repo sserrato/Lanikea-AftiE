@@ -1,10 +1,13 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <script src="https://www.webglearth.com/v2/api.js"></script>
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/twitter.js"></script>
     <script src="/js/globe.js"></script>
+    <script src="https://www.webglearth.com/v2/api.js"></script>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <style>
       html, body{padding: 0; margin: 0; background-color: black;}
       #earth_div{top: 0; right: 0; bottom: 0; left: 0; position: absolute !important;}
@@ -12,6 +15,13 @@
     <title>WebGL Earth API: Markers</title>
   </head>
   <body onload="initialize()">
+    <h1>Twitter Stream</h1>
+    <form action="/markers.html" name="search">
+    <div class="form-group">
+      <input type="text" class="form-control">
+    </div>
+    <input type="submit" class="btn btn-default">
+    </form>
     <div id="earth_div"></div>
   </body>
 </html>
