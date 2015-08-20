@@ -79,7 +79,11 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
       console.log('stopped stream');
       stream.stop();
     }
-  stream = twitter.stream('statuses/filter', {track: searchTerm});
+  if(searchTerm === ""){
+    stream = twitter.stream('statuses/filter', {locations:'-180,-90,180,90'});
+  } else {
+    stream = twitter.stream('statuses/filter', {track: searchTerm});
+  }
 
 	stream.on('tweet', function(tweet){ //this line and above are server side
 	  if(tweet.coordinates && tweet.coordinates.coordinates){
