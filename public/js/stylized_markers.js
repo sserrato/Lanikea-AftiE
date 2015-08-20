@@ -1,21 +1,61 @@
-var client = new Faye.Client('/faye');
+var socket = io();
+
+socket.on('connect', function() {
+  console.log('Connected!');
+});
 
 function initialize() {
+  var styles = [
+    {
+      featureType: 'water',
+      elementType: 'geometry.fill',
+      stylers: [
+        { color: '#545454' }
+      ]
+    },{
+      featureType: 'landscape.natural',
+      elementType: 'geometry.fill',
+      stylers: [
+          { color: '#000000' }
+      ]
+    },{
+      featureType: 'administrative.country',
+      elementType: 'all',
+      stylers: [
+          { visibility: 'off' }
+      ]
+    },{
+      featureType: 'water',
+      elementType: 'labels.text.fill',
+      stylers: [
+          { visibility: 'off' }
+      ]
+    },{
+      featureType: 'water',
+      elementType: 'labels.text.stroke',
+      stylers: [
+          { visibility: 'off' }
+      ]
+    }
+  ];
   // Create the Google Map…
   var latlng = new google.maps.LatLng(0, 0); //this numbers sets the lat and long of the center of the map. UK 54, -4
   var myOptions = {
+    mapTypeControlOptions: {
+      mapTypeIds: ['Styled']
+    },
       zoom: 2  // this number changes the zoom that the map starts at UK 6
     , center: latlng
-    , mapTypeId: google.maps.MapTypeId.ROADMAP //ROADMAP can also be SATELLITE, HYBRID, or TERRAIN
+    , disableDefaultUI: true
+    , mapTypeId: 'Styled' //ROADMAP can also be SATELLITE, HYBRID, or TERRAIN
   };
   var map = new google.maps.Map(document.getElementById("map"), myOptions);
-
-
+  var styledMapType = new google.maps.StyledMapType(styles, { name: 'Styled' });
+    map.mapTypes.set('Styled', styledMapType);
   // Load the station data. When the data comes back, create an overlay.
-  client.subscribe('/tweet', function(data) {
+  socket.on('tweets', function(data) {
     // console.log(data);
     var overlay = new google.maps.OverlayView();
-
     // Add the container when the overlay is added to the map.
     overlay.onAdd = function() {
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
@@ -25,7 +65,6 @@ function initialize() {
       overlay.draw = function() {
         var projection = this.getProjection(),
         padding = 10;
-
         var marker = layer.selectAll("svg")
         .data(d3.entries(data.coordinates))
         .each(transform) // update existing markers
@@ -37,7 +76,13 @@ function initialize() {
         .attr("r", 2)
         .attr("cx", padding)
         .attr("cy", padding)
+<<<<<<< HEAD
         .transition().remove().attr("r", 10).attr("fill", "red").duration(3000)
+=======
+        .style("fill", "rgb(0, 255, 128)")
+        .style("fill-opacity", 0.4)
+        .transition().remove().attr("r", 10).style("fill", "rgb(100, 255, 255)").style("fill-opacity", 0.4).duration(3000)
+>>>>>>> upstream/master
         // .style("opacity", 0).duration(3000);
         // Add a label.
         // marker.append("svg:text")
