@@ -47,10 +47,10 @@ var io = require('socket.io')(server); //invokes socket.io which will handle all
 //// ROUTES
 // create an instance for the API routes
 var apiRouter = express.Router();
-	console.log(apiRouter);
+	//console.log(apiRouter);
 
 apiRouter.use(function(req, res, next){
-	console.log(req);
+	//console.log(req);
 	next();
 })
 
@@ -61,6 +61,9 @@ apiRouter.get('/', function(req,res){
 //Sergio adding this / Creating routes for the tweet data API THURSDAY
 apiRouter.route('/tweets')
   .get(tweetsController.showTweets)
+
+apiRouter.route('/tweets/:queryTerm')
+  .get(tweetsController.findQuery)
 
 //END ADDING
 
@@ -148,15 +151,19 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 		} else if(tweet.place) {
 	  	var place = tweet.place.bounding_box.coordinates[0][0];
 			var data = {};
-      data.searchTerm =
       data.coordinates = place;
     	data.screen_name = tweet.user.screen_name;
     	data.text = tweet.text;
     	data.pic = tweet.user.profile_image_url;
       // Sergio adding for model THURSDAY
-      data.queryTerm = searchTerm
+      data.country = tweet.place.country;
+      data.queryTerm = searchTerm;
       data.followersCount = tweet.user.followers_count;
       data.friendsCount = tweet.user.friends_count;
+      data.listedCount = tweet.user.listed_count;
+      data.screenName = tweet.user.screen_name;
+      data.statusesCount = tweet.user.statuses_count;
+      data.favouritesCount = tweet.user.favourites_count;
       var newTweet = new TweetStream(data)
       newTweet.save(function(err){
         if(!err){
@@ -164,6 +171,7 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
         }
       });
     console.log(searchTerm +'booooooom');
+    console.log(tweet.place.country);
 	  }
 
 	});
