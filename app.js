@@ -169,19 +169,22 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
       data.screenName = tweet.user.screen_name;
       data.statusesCount = tweet.user.statuses_count;
       data.favouritesCount = tweet.user.favourites_count;
-      var newTweet = new TweetStream(data)
-      newTweet.save(function(err){
-        if(!err){
-          socket.emit('tweets', data);  //sending info back to the client
-        }
-      });
-    console.log(searchTerm +'booooooom');
-    console.log(tweet.place.country);
-	  }
 
+
+	  }
+    var newTweet = new TweetStream(data)
+    newTweet.save(function(err){
+      if(!err){
+        socket.emit('tweets', data);  //sending info back to the client
+      }
+    });
 	});
 
   });
+
+
+
+
   //SETS UP TO SHOW ALL TWEETS
   socket.on('showAll', function(){
     socket.emit('showAll');
