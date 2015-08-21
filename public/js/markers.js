@@ -1,11 +1,33 @@
 var socket = io();
 
-socket.on('connect', function() {
-  console.log('Connected!');
-});
-
 
 function initialize() {
+  // retrieve removeMarkers from the dom and make it a jQuery object
+  var removeAll = $('#removeMarkers');
+  var removeAll2 = $('#allTweets');
+  var removeAll3 = $('#submitSearch');
+
+  // Sets the map on all markers in the array.
+  function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
+  removeAll.on('click', function(evt) {
+    setMapOnAll(null);
+    markers = [];
+  });
+
+  removeAll2.on('click', function(evt) {
+    setMapOnAll(null);
+    markers = [];
+  });
+
+  removeAll3.on('click', function(evt) {
+    setMapOnAll(null);
+    markers = [];
+  });
 
   //RENDER THE MAP
   var latlng = new google.maps.LatLng(0, 0); //this numbers sets the lat and long of the center of the map. UK 54, -4
@@ -17,11 +39,11 @@ function initialize() {
 
   var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
-
+  var markers = [];
   socket.on('tweets', function(data) {
     // console.log(data.user);
     // console.log(data.text);
-    console.log(data);
+    // console.log(data);
     var myLatlng = new google.maps.LatLng(data.coordinates[1],data.coordinates[0]);
     // console.log(myLatlng);
     var image = '/images/dot_blue.png';
@@ -31,6 +53,7 @@ function initialize() {
       map: map,
       icon: image
     });
+    markers.push(marker); //Adds all Markers to the markers array, so we can use or delete them later.
 
     // Remove marker after 30 seconds
 

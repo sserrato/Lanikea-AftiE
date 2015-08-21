@@ -137,8 +137,13 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
         console.log('stopped stream');
         stream.stop();
       }
-  stream = twitter.stream('statuses/filter', {track: searchTerm});
 
+//CHECK THE INPUT BOX FOR VALUE
+  if(searchTerm !== ""){
+    stream = twitter.stream('statuses/filter', {track: searchTerm});
+    }
+
+// SEND THE DATA TO THE FRONTEND
 	stream.on('tweet', function(tweet){ //this line and above are server side
 
     if(tweet.coordinates && tweet.coordinates.coordinates){
@@ -176,6 +181,11 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 
 	});
 });
+//STOPS FEED
+  socket.on('stopAll', function(){
+    socket.emit('stopAll');
+    stream.stop();
+  });
 });
 
 

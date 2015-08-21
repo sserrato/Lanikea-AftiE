@@ -1,12 +1,30 @@
 var socket = io();
 
-socket.on('connect', function() {
-  console.log('Connected!');
-});
-
 var map, heatmap;
 
 function initialize() {
+  var removeHeat = $('#removeHeat');
+  var removeHeat2 = $('#allTweets');
+  var removeHeat3 = $('#submitSearch');
+
+  removeHeat.on('click', function(evt) {
+    heatmap.setMap(null); //toggles the heatmap off
+    heatmap.getData().j = []; // deletes the coordinates by emptying the array
+    heatmap.setMap(map); // toggles the heatmap back on, now clear.
+  });
+  removeHeat2.on('click', function(evt) {
+    heatmap.setMap(null); //toggles the heatmap off
+    heatmap.getData().j = []; // deletes the coordinates by emptying the array
+    heatmap.setMap(map); // toggles the heatmap back on, now clear.
+  });
+  removeHeat3.on('click', function(evt) {
+    heatmap.setMap(null); //toggles the heatmap off
+    heatmap.getData().j = []; // deletes the coordinates by emptying the array
+    heatmap.setMap(map); // toggles the heatmap back on, now clear.
+  });
+
+
+
 
   var latlng = new google.maps.LatLng(0, 0); //this numbers sets the lat and long of the center of the map. UK 54, -4
   var myOptions = {
