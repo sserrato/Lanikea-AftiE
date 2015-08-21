@@ -53,7 +53,7 @@ function initialize() {
   socket.on('tweets', function(data) {
 
     // if (data.retweet_count) {
-    console.log(data.retweet_count);
+    //console.log(data.retweet_count);
     // }
     var overlay = new google.maps.OverlayView();
     // Add the container when the overlay is added to the map.
@@ -88,7 +88,7 @@ function initialize() {
         .style("fill-opacity", 0.4)
         .transition().remove()
         .attr("r", function(d){
-          return scale(data.followers_count);
+          return scale(data.followersCount);
 
           // if(data.followers_count > 200) return 14;
           // else return 4;
