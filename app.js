@@ -1,15 +1,18 @@
 require('dotenv').load()
-var express 	= require('express');
-var	http 			= require('http');
-var logger 		=	require('morgan');
-var bcrypt 		= require('bcrypt');
-//sergio adding the tweet model
-var TweetStream = require('./models/tweet');
-var User      = require('./models/user');
-var usersController = require('./controller/usersController');
+var express     	= require('express');
+var	http 		     	= require('http');
+var logger 	    	=	require('morgan');
+var bcrypt 	    	= require('bcrypt');
+var TweetStream   = require('./models/tweet');
+var User          = require('./models/user');
+var usersController  = require('./controller/usersController');
 var tweetsController = require('./controller/tweetsController');
-var methodOverride = require('method-override');
-var Twit = require('twit');
+var methodOverride  = require('method-override');
+var Twit            = require('twit');
+// authentication packages
+var passport        = require('passport');
+var flash           = require('connect-flash');
+var session         = require('express-session')
 
 var twitter = new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -40,6 +43,12 @@ app.use(express.static(__dirname + '/public'));
 app.use(logger('dev'));
 // parse incoming json
 app.use(bodyParser.json());
+// required for passport THURSDAY code
+app.use(session({ secret: 'fkaTWIGSgl@ss&patr0n'}));; // session secret
+app.use(passport.initialize());
+app.use(passport.session()) // persistent login sessions
+app.use(flash()); //use connect-flash for flash messages stored in session 
+
 var server = require('http').createServer(app); //setup for websocket application
 
 var io = require('socket.io')(server); //invokes socket.io which will handle all connections and responses using server.
