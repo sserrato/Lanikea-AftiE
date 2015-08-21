@@ -170,14 +170,14 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
       data.statusesCount = tweet.user.statuses_count;
       data.favouritesCount = tweet.user.favourites_count;
 
-
+      var newTweet = new TweetStream(data)
+      newTweet.save(function(err){
+        if(!err){
+          socket.emit('tweets', data);  //sending info back to the client
+        }
+      });
 	  }
-    var newTweet = new TweetStream(data)
-    newTweet.save(function(err){
-      if(!err){
-        socket.emit('tweets', data);  //sending info back to the client
-      }
-    });
+
 	});
 
   });
