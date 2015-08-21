@@ -1,14 +1,89 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>GtagTweets</title>
-    </head>
-    <body>
-    	<h1>GtagTweets!</h1>
-    	<a href="console.html">console</a>
-    	<a href="markers.html">markers</a>
-    	<a href="heatmap.html">heatmap</a>
-    	<a href="stylized_markers.html">stylized</a>
-    	<a href="globe.html">globe</a>
-    </body>
-</html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  <style media="screen">
+    .big-container{
+      width: 800px;
+      display: inline;
+    }
+    .pure-form{
+      width: 200px;
+      display: inline;
+    }
+    .container{
+      width: 200px;
+      margin-right: 100px;
+      position: relative;
+      display: inline-block;
+
+    }
+    .form-tag{
+      display: inline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class = "big-container">
+    <div class="container">
+      <h2>Create Account</h2>
+      <form id="user-form"class="pure-form" method= "post" action="index.html">
+        <div class = "form-tag">
+          <label for="email">Email:</label>
+          <input name="email" type="text" placeholder="email">
+        </div>
+
+        <div class = "form-tag">
+          <label for="password">Password:</label>
+          <input name="password" type="password" placeholder="password">
+          <button type="submit" class="pure-button pure-button-primary">Add User</button>
+        </div>
+      </form>
+    </div>
+
+    <div class = "container">
+      <h2>User Login</h2>
+      <form id="login-form"class="pure-form">
+        <div class = "form-tag">
+          <label for="email">Email:</label>
+          <input name="email" type="text" placeholder="email">
+        </div>
+
+        <div class = "form-tag">
+          <label for="password">Password:</label>
+          <input name="password" type="password" placeholder="password">
+          <button type="submit" class="pure-button pure-button-primary">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    var userForm = $('#user-form');
+    userForm.on('submit', function (evt) {
+      evt.preventDefault();
+      var name = evt.target.name.value;
+      var email = evt.target.email.value;
+      var password = evt.target.password.value;
+      $.ajax({
+        method: "POST"
+        , url: '/api/users'
+        , contentType: 'application/json; charset=UTF-8'
+        , dataType   : 'json'
+        , data: JSON.stringify({ name: name, email: email, password: password  })
+        , success: function(data){
+          console.log(data);
+        }
+      });
+    });
+
+  </script>
+
+</body>
