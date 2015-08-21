@@ -201,6 +201,7 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
         var data = {};
         data.coordinates = tweet.coordinates.coordinates;
         data.screen_name = tweet.user.screen_name;
+        data.followersCount = tweet.user.followers_count;
         data.text = tweet.text;
         data.pic = tweet.user.profile_image_url;
         socket.emit('tweets', data);  //sending info back to the client
@@ -209,6 +210,7 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
         var place = tweet.place.bounding_box.coordinates[0][0];
         var data = {};
         data.coordinates = place;
+        data.followersCount = tweet.user.followers_count;
         data.screen_name = tweet.user.screen_name;
         data.text = tweet.text;
         data.pic = tweet.user.profile_image_url;

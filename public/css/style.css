@@ -1,0 +1,55 @@
+body{
+  font-size: 12px;
+}
+
+.button-secondary {
+  background: transparent; /* this is a light blue */
+  color: white;
+}
+
+.pure-form{
+  width: 250px;
+  height: 20px;
+}
+
+.form-control {
+  background: transparent;
+  color: white;
+}
+
+#submitSearch{
+  width: 50px;
+  height: 20px;
+  background: black;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  padding: 0px;
+  border: none;
+}
+
+.panel {
+  background: transparent;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+}
+
+.right-panel {
+  left: 75%;
+  background: transparent;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+}
+
+a {
+  padding: 3px;
+  color: white;
+}
+
+a:hover {
+  text-decoration: none;
+}
