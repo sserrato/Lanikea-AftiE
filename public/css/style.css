@@ -1,0 +1,68 @@
+body{
+  font-size: 12px;
+}
+.button-secondary {
+  background: transparent; /* this is a light blue */
+  color: white;
+}
+.pure-form{
+  height: 20px;
+  width: 265px;
+}
+.form-control {
+  background: transparent;
+  color: white;
+  border: 1px solid rgb(77, 77, 77);
+}
+.form-control#colored{
+  background: rgba(179, 209, 255, 0.59);
+  color: black;
+  border: 1px solid rgb(77, 77, 77);
+  max-width: 281px;
+}
+#submitSearch{
+  width: 50px;
+  height: 20px;
+  background: black;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  padding: 0px;
+  border: none;
+}
+.panel {
+  background: transparent;
+  padding: 5px;
+  position: absolute;
+  z-index: 5;
+  left: 5%;
+}
+.right-panel {
+  left: 72%;
+  background: transparent;
+  padding: 5px;
+  position: absolute;
+  top: 15px;
+  z-index: 5;
+}
+a {
+  padding: 3px;
+  color: white;
+  border: 1px solid rgb(83, 83, 83);
+  border-radius: 1px;
+  background-color: rgba(118, 118, 118, 0.5);
+}
+a:hover {
+  text-decoration: none;
+}
+h1{
+  font-size: 18px;
+}
+h1.white{
+  font-size: 18px;
+  color: white;
+}
+
+.bg{
+  background-color: rgb(214, 231, 255);
+}

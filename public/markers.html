@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GtagTweets</title>
+        <title>CPS Geo Tweets</title>
         <style type="text/css">
         	html, body, #map{
         		width:100%;height:100%;margin:0;
@@ -12,26 +12,31 @@
     <script type="text/javascript" src="/js/twitter.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 		<script src="/js/markers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     </head>
-
     <body onload="initialize()">
-      <h1>Twitter Stream</h1>
-      <form action="/markers.html" name="search">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Enter search word(s) here. (e.g: pizza, burger)">
+      <div class="panel">
+        <h1>Twitter Stream</h1>
+        <form action="/markers.html" name="search">
+          <div class="form-group">
+            <input type="text" class="form-control" id="colored" placeholder="Enter search words. (e.g: pizza, burger)">
+          </div>
+          <input type="submit" class="btn btn-default" id="submitSearch">
+          <a type="button" name="button" id="allTweets">All Tweets</a>
+          <a type="button" name="button" id="removeMarkers">Remove Markers</a>
+          <a type="button" name="button" id="stopTweets">Stop Feed</a>
+        </form>
       </div>
-      <input type="submit" class="btn btn-default" id="submitSearch">
-      <button type="button" name="button" id="allTweets">All Tweets</button>
-      <button type="button" name="button" id="removeMarkers">Remove Markers</button>
-      <button type="button" name="button" id="stopTweets">Stop Feed</button>
-      <a href="console.html">console</a>
-    	<a href="markers.html">markers</a>
-    	<a href="heatmap.html">heatmap</a>
-    	<a href="stylized_markers.html">stylized</a>
-    	<a href="globe.html">globe</a>
-      </form>
+      <div class="right-panel">
+        <a  href="console.html">console</a>
+      	<a  href="markers.html">markers</a>
+      	<a  href="heatmap.html">heatmap</a>
+      	<a  href="stylized_markers.html">stylized</a>
+      	<a  href="globe.html">globe</a>
+      </div>
       <div id="map" style="height:100%;width:100%"></div>
     </body>
 </html>
