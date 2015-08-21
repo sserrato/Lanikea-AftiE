@@ -1,9 +1,5 @@
 var socket = io();
 
-socket.on('connect', function() {
-  console.log('Connected!');
-});
-
 
 function initialize() {
   // retrieve removeMarkers from the dom and make it a jQuery object
@@ -57,8 +53,7 @@ function initialize() {
       map: map,
       icon: image
     });
-    markers.push(marker);
-    console.log(markers);
+    markers.push(marker); //Adds all Markers to the markers array, so we can use or delete them later.
 
     // Remove marker after 30 seconds
 

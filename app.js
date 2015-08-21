@@ -140,7 +140,8 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 
   //STOPS FEED
   socket.on('stopAll', function(){
+    socket.emit('stopAll');
     stream.stop();
   });
-  
+
 });

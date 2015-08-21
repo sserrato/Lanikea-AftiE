@@ -49,5 +49,10 @@ $(function (){
     socket.emit('stopAll');
   });
 
+  socket.on('stopAll', function() {
+    $('h1').text("Feed has stopped. Submit a new one.");
+    console.log("Feed has stopped. Submit a new one.");
+  });
+
 
 });
