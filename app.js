@@ -180,12 +180,44 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 	  }
 
 	});
-});
-//STOPS FEED
-  socket.on('stopAll', function(){
-    socket.emit('stopAll');
-    stream.stop();
+
   });
+  //SETS UP TO SHOW ALL TWEETS
+  socket.on('showAll', function(){
+    socket.emit('showAll');
+    //STOP STREAM AND START ANOTHER AFTER WITH ALL TWEETS
+    if(stream){
+      console.log('stopped stream');
+      stream.stop();
+    }
+    //SETS IT SO MAP SHOWS ALL TWEETS AROUND THE WORLD
+    stream = twitter.stream('statuses/filter', {locations:'-180,-90,180,90'});
+    //SEND THE DATA TO FRONT END
+    stream.on('tweet', function(tweet){ //this line and above are server side
+      if(tweet.coordinates && tweet.coordinates.coordinates){
+        var data = {};
+        data.coordinates = tweet.coordinates.coordinates;
+        data.screen_name = tweet.user.screen_name;
+        data.text = tweet.text;
+        data.pic = tweet.user.profile_image_url;
+        socket.emit('tweets', data);  //sending info back to the client
+      }
+      else if(tweet.place) {
+        var place = tweet.place.bounding_box.coordinates[0][0];
+        var data = {};
+        data.coordinates = place;
+        data.screen_name = tweet.user.screen_name;
+        data.text = tweet.text;
+        data.pic = tweet.user.profile_image_url;
+        socket.emit('tweets', data);  //sending info back to the client
+      }
+    });
+  });
+  //STOPS FEED
+    socket.on('stopAll', function(){
+      socket.emit('stopAll');
+      stream.stop();
+    });
 });
 
 
