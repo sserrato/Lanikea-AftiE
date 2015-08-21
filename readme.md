@@ -1,14 +1,16 @@
 # CPS Maps
-
+Available here [https://mysterious-plateau-4786.herokuapp.com/](https://mysterious-plateau-4786.herokuapp.com/)
 
 ## Project Overview
-Team CPS will create an app that will monitor and visually geo-locate Twitter mentions of user specified search terms in real time.
+Team CPS has created an app that monitors and visually geo-locates Twitter mentions of user specified search terms in real time.
 
-We intend this product to be of use during global events like the World Cup where we expect users to be able to see and interact with more than 700 million tweets during the duration of the World Cup. Astonishingly, during the 2014 World Cup. the Brazil vs. Germany match Twitter produced 35.6 million tweets.  
+We intend this product to be of use during global events like the World Cup where we expect users to be able to see and interact with more than 700 million tweets during the duration of the World Cup. Astonishingly, during the 2014 World Cup. the Brazil vs. Germany match Twitter produced 35.6 million tweets.  These were consumer-generated content and can be mined for insights. 
 
-This will be of interest to brands who are advertising this event as well so they can track the geolocation of conversation trends.
+This data is of interest to brands who are advertising this event as well so they can track the geolocation of conversation trends. We achieve this by saving the streamed results and make them available via an enterprise API that can directly deliver the data to the enterprise client. 
 
-This app will utlilize Mongo, Express & Node.js on the backend along with JavaScript, JQuery, HTML5 & CSS on the front end. This app will be deployed on Heroku and use Modulus or Mongolab for the database.
+
+This app utlilizes Mongo, Express & Node.js on the backend along with JavaScript, JQuery, HTML5 & CSS on the front end. This app is live on Heroku and MongoLab.
+
 
 Further Node packages are to be determined.
 
@@ -16,7 +18,7 @@ Further Node packages are to be determined.
 
 ### Technologies used:
 
-APIs used will be: User API (our own API), Google Maps API and Twitter API. For data visualization and certain UI elements, we will be using D3 on top of JQuery.
+APIs used will be: User API (our own API), Google Maps API and Twitter API. For data visualization and certain UI elements, we will are using D3 on top of JQuery and PureCSS.
 
 
 
