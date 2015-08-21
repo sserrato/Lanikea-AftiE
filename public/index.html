@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>Login</title>
@@ -10,6 +9,8 @@
     .big-container{
       width: 800px;
       display: inline;
+      margin: 25%;
+      top: 200px;
     }
     .pure-form{
       width: 200px;
@@ -17,73 +18,39 @@
     }
     .container{
       width: 200px;
-      margin-right: 100px;
-      position: relative;
+      margin-left: 40%;
       display: inline-block;
-
+      margin-top: 100px;
+      border: 3px solid grey;
+      border-radius: 10%;
+      padding: 20px;
     }
     .form-tag{
       display: inline;
+      margin-top: 10px;
+    }
+    .pure-button{
+      margin-top: 10px;
+    }
+    .email{
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
-
 <body>
-
-  <div class = "big-container">
     <div class="container">
       <h2>Create Account</h2>
       <form id="user-form"class="pure-form" method= "post" action="index.html">
         <div class = "form-tag">
-          <label for="email">Email:</label>
-          <input name="email" type="text" placeholder="email">
+          <label for="email" class="email">Email:</label>
+          <input class="email" name="email" type="text" placeholder="email">
         </div>
-
         <div class = "form-tag">
-          <label for="password">Password:</label>
-          <input name="password" type="password" placeholder="password">
+          <label class="email" for="password">Password:</label>
+          <input class="email" name="password" type="password" placeholder="password">
           <button type="submit" class="pure-button pure-button-primary">Add User</button>
         </div>
       </form>
     </div>
-
-    <div class = "container">
-      <h2>User Login</h2>
-      <form id="login-form"class="pure-form">
-        <div class = "form-tag">
-          <label for="email">Email:</label>
-          <input name="email" type="text" placeholder="email">
-        </div>
-
-        <div class = "form-tag">
-          <label for="password">Password:</label>
-          <input name="password" type="password" placeholder="password">
-          <button type="submit" class="pure-button pure-button-primary">Login</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script type="text/javascript">
-
-    var userForm = $('#user-form');
-    userForm.on('submit', function (evt) {
-      evt.preventDefault();
-      var name = evt.target.name.value;
-      var email = evt.target.email.value;
-      var password = evt.target.password.value;
-      $.ajax({
-        method: "POST"
-        , url: '/api/users'
-        , contentType: 'application/json; charset=UTF-8'
-        , dataType   : 'json'
-        , data: JSON.stringify({ name: name, email: email, password: password  })
-        , success: function(data){
-          console.log(data);
-        }
-      });
-    });
-
-  </script>
-
 </body>

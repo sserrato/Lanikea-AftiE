@@ -179,11 +179,11 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
       data.screenName = tweet.user.screen_name;
       data.statusesCount = tweet.user.statuses_count;
       data.favouritesCount = tweet.user.favourites_count;
-
       var newTweet = new TweetStream(data)
+      socket.emit('tweets', data);  //sending info back to the client
       newTweet.save(function(err){
         if(!err){
-          socket.emit('tweets', data);  //sending info back to the client
+          console.log("success");
         }
       });
 	  }
@@ -237,6 +237,6 @@ io.on('connect', function(socket){   //io.on is checking for someone to connect.
 
 
 server.listen(app.get('port'), function(){
-	console.log("Server started, port server is", app.get('port'));
-	console.log(app);
+	// console.log("Server started, port server is", app.get('port'));
+	// console.log(app);
 });

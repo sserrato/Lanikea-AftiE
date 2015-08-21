@@ -9,7 +9,8 @@ var tweetstreamSchema = new mongoose.Schema({
   screenName: {type: String},
   listedCount: {type: Number},
   statusesCount: {type: Number},
-  favouritesCount: {type: Number}
+  favouritesCount: {type: Number},
+  dateCreated: {type: Date, default: Date.now}
 })
 
 
