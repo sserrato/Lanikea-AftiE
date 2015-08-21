@@ -4,11 +4,11 @@ $(function (){
   socket.on('connect', function() {
     console.log('Connected!');
   });
-  socket.on('tweets', function(tweet) {
 
+  socket.on('tweets', function(tweet) {
+    console.log(tweet);
     var html = '<div class="row"><div class="col-md-6 col-md-offset-3 tweet"><img src="' + tweet.pic + '" class="avatar pull-left"/><div class="names"><span class="username"><b>@' +tweet.screen_name + '</b></span></div><div class="contents"><span class="text">' + tweet.text + '</span></div></div></div>';
     $('#tweet-container').prepend(html);
-
   });
 
   $('form').submit(function(e){
@@ -50,8 +50,8 @@ $(function (){
   });
 
   socket.on('stopAll', function() {
-    $('h1').text("Feed has stopped. Submit a new one.");
-    console.log("Feed has stopped. Submit a new one.");
+    $('h1').text("Feed has stopped.");
+    console.log("Feed has stopped.");
   });
 
 
