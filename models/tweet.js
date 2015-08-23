@@ -6,6 +6,7 @@ var tweetstreamSchema = new mongoose.Schema({
   friendsCount: {type: Number},
   coordinates: {type: [Number]},
   country: {type: String},
+  text: {type: String},
   screenName: {type: String},
   listedCount: {type: Number},
   statusesCount: {type: Number},

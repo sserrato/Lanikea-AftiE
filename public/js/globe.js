@@ -18,8 +18,7 @@ function initialize() {
   var markerCustom = WE.marker([50, -9], '/img/logo-webglearth-white-100.png', 100, 24).addTo(earth);
   earth.setView([51.505, 0], 3);
   socket.on('tweets', function(data) {
-    var marker = WE.marker(data.coordinates).addTo(earth);
-    // console.log(data);
+    var marker = WE.marker([data.coordinates[1], data.coordinates[0]]).addTo(earth);
     marker.bindPopup("<b>"+ data.screen_name +"</b><br><br /><span style='font-size:10px;color:#999'>"+data.text+"</span>", {maxWidth: 150, closeButton: true}).openPopup();
   });
 }
