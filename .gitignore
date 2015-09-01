@@ -1,6 +1,4 @@
 node_modules
-<<<<<<< HEAD
-=======
 .env
-.gitignore
->>>>>>> master
+.DS_Store
+data.js
