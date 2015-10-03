@@ -45,7 +45,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 // required for passport THURSDAY code
 var wdi17p3session = process.env.WDI17P3SESSION
-app.use(session({ secret: wdi17p3session}));; // session secret
+app.use(session({ secret: wdi17p3session})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()) // persistent login sessions
 app.use(flash()); //use connect-flash for flash messages stored in session
@@ -68,7 +68,7 @@ apiRouter.get('/', function(req,res){
 	res.json({ message: 'Welcome to the API for CPS'});
 })
 
-//Sergio adding this / Creating routes for the tweet data API THURSDAY
+//Sergio adding this / Creating routes for the tweet data API
 apiRouter.route('/tweets')
   .get(tweetsController.showTweets)
 
