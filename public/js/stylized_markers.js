@@ -78,7 +78,8 @@ function initialize() {
         .attr("cy", padding)
         .attr("transform", "translate("  - 50 + "," + 50 + ")")
         .style("fill", function(d){
-          if(data.followersCount > 1000) return "rgb(255, 0, 127)";
+          if(data.followersCount > 3000) return "rgb(255, 0, 127)";
+          else if(2999 > data.followersCount > 1000) return "rgb(255, 184, 77)";
          else return "rgb(0, 0, 255)"
         })
         .style("fill-opacity", 0.4)
@@ -87,7 +88,8 @@ function initialize() {
           return scale(data.followersCount);
         })
         .style("fill",  function(d){
-          if(data.followersCount > 1000) return "rgb(255, 0, 0)";
+          if(data.followersCount > 3000) return "rgb(255, 0, 0)";
+          else if(2999 > data.followersCount > 1000) return "rgb(255, 153, 0)";
           else return "rgb(0, 255, 255)"})
         .style("fill-opacity", 0.4).duration(3000)
         .style("opacity", 0).duration(3000);
