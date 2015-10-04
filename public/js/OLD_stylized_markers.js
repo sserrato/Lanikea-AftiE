@@ -47,8 +47,11 @@ function initialize() {
     , mapTypeId: 'Styled' //ROADMAP can also be SATELLITE, HYBRID, or TERRAIN
   };
   var map = new google.maps.Map(document.getElementById("map"), myOptions);
+
   var styledMapType = new google.maps.StyledMapType(styles, { name: 'Styled' });
+
   map.mapTypes.set('Styled', styledMapType);
+
   // Load the station data. When the data comes back, create an overlay.
   socket.on('tweets', function(data) {
 
@@ -58,9 +61,11 @@ function initialize() {
     var overlay = new google.maps.OverlayView();
     // Add the container when the overlay is added to the map.
     overlay.onAdd = function() {
+
       var scale = d3.scale.linear()
       .domain([0, 500000])
       .range([20, 100]);
+
       var layer = d3.select(this.getPanes().overlayLayer).append("div")
       .attr("class", "stations");
       // Draw each marker as a separate SVG element.

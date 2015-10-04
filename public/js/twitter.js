@@ -23,7 +23,7 @@ $(function (){
   });
 
   socket.on('updatedTerm', function(searchTerm) {
-    $('h1').text("Twitter Search for "+ searchTerm);
+    $('h1').text("Lanikea stream for "+ searchTerm);
     console.log(searchTerm);
   });
 
@@ -35,7 +35,7 @@ $(function (){
   });
 
   socket.on('showAll', function() {
-    $('h1').text("Twitter Search for all tweets");
+    $('h1').text("Lanikea stream all geolocations");
     console.log("searching everything...");
   });
 
@@ -50,8 +50,8 @@ $(function (){
   });
 
   socket.on('stopAll', function() {
-    $('h1').text("Feed has stopped.");
-    console.log("Feed has stopped.");
+    $('h1').text("Lanikea stream has stopped.");
+    console.log("Lanikea has stopped.");
   });
 
 

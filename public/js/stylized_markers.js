@@ -7,7 +7,7 @@ function initialize() {
       featureType: 'water',
       elementType: 'geometry.fill',
       stylers: [
-        { color: '#545454' }
+        { color: '#333333' }
       ]
     },{
       featureType: 'landscape.natural',
